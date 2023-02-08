@@ -2,11 +2,15 @@
   Sign up
   <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div class="mb-4">
+      <%= render "devise/shared/error_messages", resource: resource %>
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
         <div class="field">
           <%= f.label :email %><br />
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
         </div>
+        <div class="field">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"%>
         </div>
         <div class="mb-6">
           <div class="field">
@@ -14,7 +18,7 @@
             <% if @minimum_password_length %>
               <em>(<%= @minimum_password_length %> characters minimum)</em>
             <% end %><br />
-            <%= f.password_field :password, autocomplete: "new-password" %>
+            <%= f.password_field :password, autocomplete: "new-password", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
           </div>
           <p class="text-red-500 text-xs italic">Please choose a password.</p>
         </div>
@@ -37,9 +41,9 @@
               <%= f.submit "Sign up" %>
             </div>
           </button>
+        </div>
       <% end %>
-      <%= link_to "Sign in", new_user_session_path, class:  "inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-800" %>
-      </div>
-      </div>
+    </div>
+  </div>
+  <%= link_to "Sign in", new_user_session_path, class:  "inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-800" %>
 </div>
-
