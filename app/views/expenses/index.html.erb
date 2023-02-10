@@ -1,1 +1,57 @@
-Hello world
+<div class="w-full">
+  <div class="grid-rows-2">
+    <div class="flex">
+      <div class="text-black mr-6">
+        Total: <%= humanized_money_with_symbol(@expenses.map(&:price).sum) %>
+      </div>
+      <div class="mb-6">
+        <%= link_to "Add", new_expense_path, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="mr-6">
+        <%= form_tag expenses_path, method: "get" do %>
+          <%= select(Category ,:category_id, Category.all.collect {|p| [ p.title, p.id ] }, { include_blank: true }) %>
+          <%= submit_tag "Filter by category", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+        <% end %>
+      </div>
+      <div>
+        <%= form_tag expenses_path, method: "get" do %>
+          <%= select("expense", "price", %w[FromLowToHigh FromHighToLow]) %>
+          <%= submit_tag "Sort by price", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Price</th>
+          <% if can? :manage, Expense %>
+            <th scope="col" class="px-6 py-3">Action</th>
+        <% end %>
+        </tr>
+        </thead>
+        <tbody>
+        <% @expenses.each do |expense| %>
+          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <%= expense.description %> </td>
+            <td class="px-6 py-4"> <%= expense.category.title %> </td>
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <%= humanized_money_with_symbol(expense.price) %>
+            </td>
+            <% if can? :manage, Expense %>
+              <td class="px-6 py-4">
+                <%= link_to "Edit", edit_expense_path(expense), class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+                <%= link_to "Destroy", expense, data: { 'turbo-method': :delete, 'turbo-confirm': 'Are you sure?' }, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+              </td>
+          <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

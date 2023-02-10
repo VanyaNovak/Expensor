@@ -5,7 +5,7 @@ class Ability
 
   def initialize(user)
       return unless user.present?
-      can :manage, Expense.where(user_id: user.id)
+      can :manage, Expense, user_id: user.id
       can :read, Expense
   end
 end
