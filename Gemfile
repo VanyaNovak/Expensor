@@ -77,9 +77,11 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
   gem "rspec-rails"
-  gem "factory_bot"
 end
 
 gem "tailwindcss-rails", "~> 2.0"
 
 gem "dockerfile-rails", ">= 1.0", :group => :development
+
+gem "factory_bot"
+gem "factory_bot_rails"
