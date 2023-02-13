@@ -1,7 +1,7 @@
 # README
 
 * Ruby version
-3.1.2
+3.1.0
 
 Installation
 
