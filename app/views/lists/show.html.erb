@@ -4,13 +4,15 @@
       <div class="text-black mr-6">
         Total: <%= humanized_money_with_symbol(@expenses.map(&:price).sum) %>
       </div>
-      <div class="mb-6">
-        <%= link_to "Add", new_expense_path, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
-      </div>
+      <% if @list.user == current_user %>
+        <div class="mb-6">
+          <%= link_to "Add", new_expense_path, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+        </div>
+      <% end %>
     </div>
     <div class="flex">
       <div class="mr-6">
-        <%= form_tag expenses_path, method: "get" do %>
+        <%= form_tag list_path(@list), method: "get" do %>
           <div class="flex">
             <div class="mb-6">
               Category:
@@ -22,7 +24,7 @@
             </div>
             <div>
               <%= submit_tag "Filter", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"%>
-              <%= link_to "Drop filters", expenses_path, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+              <%= link_to "Drop filters", list_path(@list), class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
               <%= link_to 'Copy link to share', '#', onclick: "navigator.clipboard.writeText('#{request.original_url}');", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
             </div>
           </div>
@@ -36,7 +38,7 @@
           <th scope="col" class="px-6 py-3">Description</th>
           <th scope="col" class="px-6 py-3">Category</th>
           <th scope="col" class="px-6 py-3">Price</th>
-          <% if can? :manage, Expense %>
+          <% if @list.user == current_user %>
             <th scope="col" class="px-6 py-3">Action</th>
         <% end %>
         </tr>
@@ -49,7 +51,7 @@
             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               <%= humanized_money_with_symbol(expense.price) %>
             </td>
-            <% if can? :manage, Expense %>
+            <% if @list.user == current_user %>
               <td class="px-6 py-4">
                 <%= link_to "Edit", edit_expense_path(expense), class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
                 <%= link_to "Destroy", expense, data: { 'turbo-method': :delete, 'turbo-confirm': 'Are you sure?' }, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>

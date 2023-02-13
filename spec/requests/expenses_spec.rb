@@ -8,32 +8,6 @@ RSpec.describe "Expenses", type: :request do
     sign_in user
   end
 
-  describe "GET #index" do
-    let(:first_category) { create(:category) }
-    let(:second_category) { create(:category) }
-
-    let!(:expenses_with_first_category) { create_list(:expense, 3, category: first_category, user: user) }
-    let!(:expenses_with_second_category) { create_list(:expense, 3, category: second_category, user: user) }
-
-    context "without filters" do
-      it "returns all expenses related to user" do
-        get expenses_path
-
-        expect(response.status).to eq 200
-        expect(assigns["expenses"]).to match_array expenses_with_first_category + expenses_with_second_category
-      end
-    end
-
-    context "with filters, get expenses by first category" do
-      it "returns filtered expenses related to user" do
-        get expenses_path params: { filters: { category_id: first_category.id } }
-
-        expect(response.status).to eq 200
-        expect(assigns["expenses"]).to match_array expenses_with_first_category
-      end
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       let(:expense_params) { FactoryBot.attributes_for(:expense, category_id: category.id, user_id: user.id) }
@@ -70,7 +44,7 @@ RSpec.describe "Expenses", type: :request do
     it "updates an expense" do
       put expense_path(expense), params: { expense: update_params }
 
-      expect(response).to redirect_to expenses_path
+      expect(response).to redirect_to list_path(user.list)
 
       expense.reload
       expect(expense.description).to eq update_params[:description]

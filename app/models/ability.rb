@@ -7,5 +7,6 @@ class Ability
       return unless user.present?
       can :manage, Expense, user_id: user.id
       can :read, Expense
+      can :show, List
   end
 end

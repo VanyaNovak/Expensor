@@ -1,4 +1,4 @@
-# fly.toml file generated for expensor on 2023-02-07T21:47:16+02:00
+# fly.toml file generated for expensor on 2023-02-13T14:37:43+02:00
 
 app = "expensor"
 kill_signal = "SIGINT"

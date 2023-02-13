@@ -10,7 +10,7 @@ RSpec.feature "Expenses", type: :feature do
 
   describe "create" do
     it "creates new expense" do
-      visit expenses_path
+      visit list_path(user.list)
       click_on("Add")
 
       expect(page.current_url).to eq new_expense_url
@@ -32,7 +32,7 @@ RSpec.feature "Expenses", type: :feature do
     let!(:second_category) { create(:category) }
 
     it "creates new expense" do
-      visit expenses_path
+      visit list_path(user.list)
       click_on("Edit")
 
       expect(page.current_url).to eq edit_expense_url(expense)
