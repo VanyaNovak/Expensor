@@ -16,7 +16,7 @@
           <div class="flex">
             <div class="mb-6">
               Category:
-              <%= select("filters" ,:category_id, Category.all.collect {|p| [ p.title, p.id ] }, selected: params[:filters].nil? ? nil : params[:filters][:category_id]) %>
+              <%= select("filters" ,:category_id, Category.all.collect {|p| [ p.title, p.id ] } << ["All", ""], selected: params[:filters].nil? ? "" : params[:filters][:category_id]) %>
             </div>
             <div class="mx-6">
               Sort by price:
