@@ -1,6 +1,6 @@
 class ExpensesController < BaseController
   def index
-    @expenses = Expense.filter(params["Category"], current_user.id)
+    @expenses = Expense.filter(params[:filters], current_user.id)
   end
 
   def new
@@ -8,22 +8,29 @@ class ExpensesController < BaseController
   end
 
   def create
-    @expense = Expense.new(expense_params)
-    @expense.user_id = current_user.id
+    @expense = current_user.expenses.build(expense_params)
 
     if @expense.save
       redirect_to expenses_path
     else
       flash[:alert] = @expense.errors.first.type
-
       redirect_to new_expense_path
     end
   end
 
   def edit
+    @expense = current_user.expenses.find(params[:id])
   end
 
   def update
+    @expense = current_user.expenses.find(params[:id])
+
+    if @expense.update(expense_params)
+      redirect_to expenses_path
+    else
+      flash[:alert] = @expense.errors.first.type
+      redirect_to edit_expense_path
+    end
   end
 
   def destroy

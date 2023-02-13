@@ -4,9 +4,14 @@
       <%= link_to "Expensor", root_path %>
     </span>
   </div>
-  <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+  <div class="w-full block lg:flex lg:items-center lg:w-auto">
     <% if user_signed_in? %>
-        <%= link_to "Log out", destroy_user_session_path, class: "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0" %>
+        <div class="mr-6 text-white font-semibold">
+          <%= "Welcome, #{current_user.first_name + " " + current_user.last_name}" %>
+        </div>
+        <div>
+          <%= link_to "Log out", destroy_user_session_path, class: "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0" %>
+        </div>
     <% else %>
       <div>
         <%= link_to "Sign in", new_user_session_path, class: "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0" %>

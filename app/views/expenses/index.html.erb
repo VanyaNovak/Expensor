@@ -11,14 +11,21 @@
     <div class="flex">
       <div class="mr-6">
         <%= form_tag expenses_path, method: "get" do %>
-          <%= select(Category ,:category_id, Category.all.collect {|p| [ p.title, p.id ] }, { include_blank: true }) %>
-          <%= submit_tag "Filter by category", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
-        <% end %>
-      </div>
-      <div>
-        <%= form_tag expenses_path, method: "get" do %>
-          <%= select("expense", "price", %w[FromLowToHigh FromHighToLow]) %>
-          <%= submit_tag "Sort by price", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+          <div class="flex">
+            <div class="mb-6">
+              Category:
+              <%= select("filters" ,:category_id, Category.all.collect {|p| [ p.title, p.id ] }, selected: params[:filters].nil? ? nil : params[:filters][:category_id]) %>
+            </div>
+            <div class="mx-6">
+              Sort by price:
+              <%= select("filters", :price, [["Choose Order", ""], ["From Low To High", :by_asc], ["From High To Low", :by_desc]], selected: params[:filters].nil? ? nil : params[:filters][:price]) %>
+            </div>
+            <div>
+              <%= submit_tag "Filter", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"%>
+              <%= link_to "Drop filters", expenses_path, class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"%>
+              <%= link_to 'Copy link to share', '#', onclick: "navigator.clipboard.writeText('#{request.original_url}');", class: "bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+            </div>
+          </div>
         <% end %>
       </div>
     </div>
